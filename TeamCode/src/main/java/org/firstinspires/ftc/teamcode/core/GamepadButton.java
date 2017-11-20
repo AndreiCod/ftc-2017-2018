@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.core;
 
-public enum GamepadButtons {
+public enum GamepadButton {
     A,
     B,
     X,
