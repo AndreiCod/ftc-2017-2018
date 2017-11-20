@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.core;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
 public final class Hardware {
     public final Motors motors;
     public final Sensors sensors;

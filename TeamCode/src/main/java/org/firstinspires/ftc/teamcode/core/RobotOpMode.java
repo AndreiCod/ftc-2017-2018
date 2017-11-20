@@ -3,9 +3,10 @@ package org.firstinspires.ftc.teamcode.core;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 public abstract class RobotOpMode extends OpMode {
-    protected final Hardware hw;
+    protected Hardware hw;
 
-    protected RobotOpMode() {
+    @Override
+    public void init() {
         hw = new Hardware(hardwareMap);
     }
 

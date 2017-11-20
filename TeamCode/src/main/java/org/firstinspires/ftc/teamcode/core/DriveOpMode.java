@@ -3,11 +3,17 @@ package org.firstinspires.ftc.teamcode.core;
 import org.firstinspires.ftc.teamcode.systems.Drive;
 
 public abstract class DriveOpMode extends RobotOpMode {
-    protected final UI ui1 = new UI(gamepad1), ui2 = new UI(gamepad2);;
-    protected final Drive drive = new Drive(hw.motors);
+    protected UI ui1, ui2;
+    protected Drive drive;
 
     @Override
-    public void init() {}
+    public void init() {
+        super.init();
+
+        ui1 = new UI(gamepad1);
+        ui2 = new UI(gamepad2);
+        drive = new Drive(hw.motors);
+    }
 
     protected void driveWithGamepad() {
         double x = ui1.gp.left_stick_x;

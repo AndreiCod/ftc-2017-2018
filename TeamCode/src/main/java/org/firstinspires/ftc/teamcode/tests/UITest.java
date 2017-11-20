@@ -2,24 +2,30 @@ package org.firstinspires.ftc.teamcode.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.core.DriveOpMode;
-import org.firstinspires.ftc.teamcode.core.GamepadButtons;
+import org.firstinspires.ftc.teamcode.core.GamepadButton;
+import org.firstinspires.ftc.teamcode.core.UI;
+
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 @TeleOp(name="UI Test", group ="Tests")
-public final class UITest extends DriveOpMode {
+public final class UITest extends OpMode {
+    private UI ui1, ui2;
+
+    @Override
+    public void init() {
+        ui1 = new UI(gamepad1);
+        ui2 = new UI(gamepad2);
+    }
+
     @Override
     public final void loop() {
-        driveWithGamepad();
+        //driveWithGamepad();
 
-        for (GamepadButtons button : GamepadButtons.values()) {
-            telemetry.addData(button.toString(), ui1.checkButtonToggle(button));
+        for (GamepadButton button : GamepadButton.values()) {
+            boolean pressed = ui1.checkButtonToggle(button);
+            telemetry.addData(button.toString(), String.valueOf(pressed));
         }
 
-        telemetry.update();
-
-        telemetry.addData("Left Bumper", ui1.gp.left_bumper);
-        telemetry.addData("Right Bumper", ui1.gp.right_bumper);
-
-        telemetry.update();
+        // Do not call telemetry.update, automatically called by FTC.
     }
 }

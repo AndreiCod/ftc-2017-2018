@@ -6,13 +6,9 @@ public abstract class AutoOpMode extends RobotOpMode {
     protected Sensors sensors;
 
     protected AutoOpMode() {
+        super();
         sensors = new Sensors(hardwareMap);
     }
-
-    @Override
-    public void init() {}
-
-    public void runOpMode() {}
 
     private boolean isRunning = true;
 
