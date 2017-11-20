@@ -13,15 +13,21 @@ public final class UI {
 
     private ElapsedTime runtime = new ElapsedTime();
 
-    private Map<GamepadButtons, Double> lastTime = new Hashtable<>();
-    private Map<GamepadButtons, Boolean> lastState = new Hashtable<>();
-    private Map<GamepadButtons, Boolean> buttonLock = new Hashtable<>();
+    private Map<GamepadButton, Double> lastTime = new Hashtable<>();
+    private Map<GamepadButton, Boolean> lastState = new Hashtable<>();
+    private Map<GamepadButton, Boolean> buttonLock = new Hashtable<>();
 
-    UI(Gamepad gp) {
+    public UI(Gamepad gp) {
         this.gp = gp;
+
+        for (GamepadButton button : GamepadButton.values()) {
+            buttonLock.put(button, false);
+            lastState.put(button, false);
+            lastTime.put(button, 0.0);
+        }
     }
 
-    private boolean getButtonValue(GamepadButtons button) {
+    private boolean getButtonValue(GamepadButton button) {
         switch (button) {
             case A:
                 return this.gp.a;
@@ -48,37 +54,40 @@ public final class UI {
         }
     }
 
-    public boolean checkButtonHold(GamepadButtons button) {
+    public boolean checkButtonHold(GamepadButton button) {
         return getButtonValue(button);
     }
 
-    public boolean checkButtonToggle(GamepadButtons button) {
+    public boolean checkButtonToggle(GamepadButton button) {
         boolean buttonValue = getButtonValue(button);
+        boolean lastValue = lastState.get(button);
 
-        // First time button press.
-        if (buttonLock.containsKey(button) == false) {
-            buttonLock.put(button, false);
-            lastTime.put(button, 0.0);
+        // If false, no state change is requested.
+        if (!buttonValue) {
+            return lastValue;
+        } else {
+            // Record new state.
 
-            return buttonValue;
+            // Unlock if enough time passed.
+            if (runtime.time() - lastTime.get(button) > TIME_AFTER_PRESS_BUTTON_TOGGLE) {
+                lastTime.put(button, runtime.time());
+                buttonLock.put(button, false);
+            }
+
+            // If its currently locked.
+            if (buttonLock.get(button) == true) {
+                return lastValue;
+            } else {
+                // Toggle state.
+                lastState.put(button, !lastValue);
+
+                // Lock state.
+                buttonLock.put(button, true);
+                // Update time.
+                lastTime.put(button, runtime.time());
+
+                return !lastValue;
+            }
         }
-
-        if (buttonValue == false) {
-            // Disable the button's lock.
-            buttonLock.put(button, false);
-            return false;
-        }
-
-        if (buttonLock.get(button) == true)
-            return false;
-
-        buttonLock.put(button, true);
-
-        if (runtime.time() - lastTime.get(button) > TIME_AFTER_PRESS_BUTTON_TOGGLE) {
-            lastTime.put(button, runtime.time());
-            return true;
-        }
-
-        return false;
     }
 }
