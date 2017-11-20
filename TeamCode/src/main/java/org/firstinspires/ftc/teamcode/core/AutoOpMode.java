@@ -14,9 +14,11 @@ public abstract class AutoOpMode extends RobotOpMode {
 
     public void runOpMode() {}
 
+    private boolean isRunning = true;
+
     public void sleep(long milliseconds) {
         ElapsedTime timer = new ElapsedTime();
-        while (timer.milliseconds() <= milliseconds && ) {
+        while (timer.milliseconds() <= milliseconds && isRunning) {
             setStatus("Sleeping...");
         }
     }
