@@ -6,6 +6,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public final class Sensors {
     private GyroSensor gyro;
     Sensors(HardwareMap map) {
-        gyro = map.gyroSensor.get("gyro");
+        //gyro = map.gyroSensor.get("gyro");
     }
 }
