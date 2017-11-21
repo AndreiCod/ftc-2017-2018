@@ -18,7 +18,7 @@ public abstract class DriveOpMode extends RobotOpMode {
     protected void driveWithGamepad() {
         double x = ui1.gp.left_stick_x;
         double y = ui1.gp.left_stick_y;
-        double z = ui2.gp.right_stick_x;
+        double z = ui1.gp.right_stick_x;
 
         drive.driveWithGamepad(x, y, z);
     }
