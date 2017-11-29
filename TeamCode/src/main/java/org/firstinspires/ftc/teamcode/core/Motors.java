@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.core;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 
 public final class Motors {
     private final HardwareMap map;
@@ -29,7 +31,9 @@ public final class Motors {
         this.map = map;
         frontLeft = initMotor("frontLeftMotor");
         frontRight = initMotor("frontRightMotor");
+        frontRight.setDirection(Direction.REVERSE);
         backLeft = initMotor("backLeftMotor");
         backRight = initMotor("backRightMotor");
+        backRight.setDirection(Direction.REVERSE);
     }
 }
