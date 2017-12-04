@@ -9,7 +9,7 @@ public final class DriveTest extends DriveOpMode {
     @Override
     public void loop() {
         driveWithGamepad();
-        drive.printPower(telemetry);
+        drive.printStatistics(telemetry);
         telemetry.update();
     }
 }
