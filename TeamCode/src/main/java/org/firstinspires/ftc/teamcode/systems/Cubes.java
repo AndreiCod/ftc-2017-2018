@@ -1,11 +1,19 @@
 package org.firstinspires.ftc.teamcode.systems;
 
-import org.firstinspires.ftc.teamcode.core.Hardware;
+import org.firstinspires.ftc.teamcode.core.Servos;
 
 public final class Cubes {
-    private Hardware hw;
+    private Servos servos;
 
-    public Cubes(Hardware hw) {
-        this.hw = hw;
+    public Cubes(Servos svs) {
+        this.servos = svs;
+    }
+
+    public void grabCube() {
+        //servos.setCubeServos(1);
+    }
+
+    public void releaseCube() {
+        //servos.setCubeServos(0);
     }
 }
