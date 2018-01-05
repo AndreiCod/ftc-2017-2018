@@ -18,4 +18,6 @@ public abstract class AutoOpMode extends RobotOpMode {
             setStatus("Sleeping...");
         }
     }
+
+
 }

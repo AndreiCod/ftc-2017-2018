@@ -13,14 +13,14 @@ public final class CubeTest extends DriveOpMode {
     @Override
     public void init() {
         super.init();
-        cubes = new Cubes(hw.servos);
+        //cubes = new Cubes(hw.servos);
     }
 
     @Override
     public void loop() {
-        if (ui1.checkButtonToggle(GamepadButton.A))
-            cubes.();
-        else
-            cubes.releaseCube();
+        //if (ui1.checkButtonToggle(GamepadButton.A))
+            //cubes.();
+        //else
+            //cubes.releaseCube();
     }
 }
