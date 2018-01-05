@@ -9,16 +9,15 @@ import static com.qualcomm.robotcore.hardware.DcMotorSimple.Direction;
 
 public final class Motors {
     private final HardwareMap map;
-    private final DcMotor frontLeft;
-    private final DcMotor frontRight;
-    private final DcMotor backLeft;
-    private final DcMotor backRight;
+    public final DcMotor frontLeft;
+    public final DcMotor frontRight;
+    public final DcMotor backLeft;
+    public final DcMotor backRight;
     private final static double MAX_POWER = 0.78;
 
     private final static double TICKS_PER_ROTATION = 1120;
-    private final static double RAPORT = 0.5;
     private final static double WHEEL_CIRCUMFERENCE = 20.32 * Math.PI;
-    private final static double RATIO = WHEEL_CIRCUMFERENCE * RAPORT * TICKS_PER_ROTATION;
+    private final static double RATIO = TICKS_PER_ROTATION / WHEEL_CIRCUMFERENCE;
 
     public static void setEncoderMode(DcMotor motor, boolean withEncoder) {
         if (withEncoder)
@@ -52,8 +51,8 @@ public final class Motors {
         final double FRONT_LEFT = 1, FRONT_RIGHT = 1, BACK_LEFT = 1, BACK_RIGHT = 1;
         this.frontLeft.setPower(frontLeft * FRONT_LEFT * MAX_POWER);
         this.frontRight.setPower(frontRight * FRONT_RIGHT * MAX_POWER);
-        this.backLeft.setPower(backLeft * BACK_LEFT * MAX_POWER);
         this.backRight.setPower(backRight * BACK_RIGHT * MAX_POWER);
+        this.backLeft.setPower(backLeft * BACK_LEFT * MAX_POWER);
     }
 
     public void printPower(Telemetry telemetry) {
@@ -69,32 +68,4 @@ public final class Motors {
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public void moveToPosition(String direction, double distance){
-        switch(direction){
-            case "forwards":
-                rotateWheel(frontLeft, distance);
-                rotateWheel(frontRight, distance);
-                rotateWheel(backLeft, distance);
-                rotateWheel(backRight, distance);
-                break;
-            case "backwards":
-                rotateWheel(frontLeft, -distance);
-                rotateWheel(frontRight, -distance);
-                rotateWheel(backLeft, -distance);
-                rotateWheel(backRight, -distance);
-                break;
-            case "left":
-                rotateWheel(frontLeft, distance);
-                rotateWheel(frontRight, -distance);
-                rotateWheel(backLeft, -distance);
-                rotateWheel(backRight, distance);
-                break;
-            case "right":
-                rotateWheel(frontLeft, -distance);
-                rotateWheel(frontRight, distance);
-                rotateWheel(backLeft, distance);
-                rotateWheel(backRight, -distance);
-                break;
-        }
-    }
 }

@@ -2,20 +2,35 @@ package org.firstinspires.ftc.teamcode.systems;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.core.Motors;
+import org.firstinspires.ftc.teamcode.core.RobotOpMode;
+import org.firstinspires.ftc.teamcode.core.Sensors;
+
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.hardware.Gyroscope;
 
 import static org.firstinspires.ftc.teamcode.core.Utility.clamp1;
 
-public final class Drive {
+public final class Drive{
     private Motors motors;
 
     public Drive(Motors motors) {
         this.motors = motors;
     }
 
-    /// @param x gamepad1 X
-    /// @param y gamepad1 y
-    /// @param z gamepad2 x
-    public void driveWithGamepad(double x, double y, double z) {
+    /// @param x gamepad1 left X
+    /// @param y gamepad1 left y
+    /// @param z gamepad1 right x
+
+    public void driveWithGamepad(Gamepad driver) {
+        double x, y, z;
+
+        x = driver.left_stick_x;
+        y = driver.left_stick_y;
+        z = driver.right_stick_x;
+        
         motors.setPower(
                 y - x + z,
                 y + x - z,
@@ -23,6 +38,38 @@ public final class Drive {
                 y - x - z
         );
     }
+
+
+    public void moveToPosition(String direction, double distance){
+        switch(direction){
+            case "forwards":
+                motors.rotateWheel(motors.frontLeft, distance);
+                motors.rotateWheel(motors.frontRight, distance);
+                motors.rotateWheel(motors.backLeft, distance);
+                motors.rotateWheel(motors.backRight, distance);
+                break;
+            case "backwards":
+                motors.rotateWheel(motors.frontLeft, -distance);
+                motors.rotateWheel(motors.frontRight, -distance);
+                motors.rotateWheel(motors.backLeft, -distance);
+                motors.rotateWheel(motors.backRight, -distance);
+                break;
+            case "right":
+                motors.rotateWheel(motors.frontLeft, distance);
+                motors.rotateWheel(motors.frontRight, -distance);
+                motors.rotateWheel(motors.backLeft, -distance);
+                motors.rotateWheel(motors.backRight, distance);
+                break;
+            case "left":
+                motors.rotateWheel(motors.frontLeft, -distance);
+                motors.rotateWheel(motors.frontRight, distance);
+                motors.rotateWheel(motors.backLeft, distance);
+                motors.rotateWheel(motors.backRight, -distance);
+                break;
+        }
+    }
+
+    private final double P = 0, I = 0, D = 0;
 
     public void printStatistics(Telemetry telemetry) {
         motors.printPower(telemetry);
