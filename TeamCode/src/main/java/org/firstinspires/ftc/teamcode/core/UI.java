@@ -21,7 +21,7 @@ public final class UI {
         this.gp = gp;
 
         for (GamepadButton button : GamepadButton.values()) {
-            buttonLock.put(button, false);
+            buttonLock.puqt(button, false);
             lastState.put(button, false);
             lastTime.put(button, 0.0);
         }
