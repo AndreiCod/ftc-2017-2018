@@ -2,10 +2,13 @@ package com.disnodeteam.dogecv;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.View;
 
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.JavaCameraView;
 import org.opencv.core.Mat;
+
+import java.util.List;
 
 /**
  * Created by guinea on 6/19/17.
@@ -23,6 +26,8 @@ public abstract class OpenCVPipeline implements CameraBridgeViewBase.CvCameraVie
     private boolean initStarted = false;
     private boolean inited = false;
 
+    private int viewIndex = 0;
+
     /**
      * Initializes the OpenCVPipeline, but implicitly uses the rear camera.
      * @param context the application context, usually hardwareMap.appContext
@@ -37,10 +42,10 @@ public abstract class OpenCVPipeline implements CameraBridgeViewBase.CvCameraVie
      * Initializes the OpenCVPipeline.
      * @param context the application context, usually hardwareMap.appContext
      * @param viewDisplay the ViewDisplay that will display the underlying JavaCameraView to the screen;
-     *                    in most cases, using CameraViewDisplay.getInstance() as the argument is just fine.
+     *                    in most cases, using `Display.getInstance() as the argument is just fine.
      * @param cameraIndex The index of the camera to use. On every FTC-legal phone (afaik) 0 is the back camera, and 1 is the front camera.
      */
-    public void init(Context context, ViewDisplay viewDisplay, final int cameraIndex) {
+    public void init(Context context, final ViewDisplay viewDisplay, final int cameraIndex) {
         this.initStarted = true;
         this.viewDisplay = viewDisplay;
         this.context = context;
@@ -52,7 +57,16 @@ public abstract class OpenCVPipeline implements CameraBridgeViewBase.CvCameraVie
             public void run() {
                 // JCVs must be instantiated on a UI thread
                 cameraView = new JavaCameraView(finalContext, cameraIndex);
+
                 cameraView.enableFpsMeter();
+
+                cameraView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        viewIndex++;
+                    }
+                });
+
                 cameraView.setCameraIndex(cameraIndex);
                 cameraView.setCvCameraViewListener(self);
                 inited = true;
@@ -74,7 +88,9 @@ public abstract class OpenCVPipeline implements CameraBridgeViewBase.CvCameraVie
         } catch (InterruptedException e) { return; }
 
         cameraView.enableView();
+
         viewDisplay.setCurrentView(context, getCameraView());
+
     }
 
     /**
@@ -124,6 +140,7 @@ public abstract class OpenCVPipeline implements CameraBridgeViewBase.CvCameraVie
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
 
+
         return processFrame(inputFrame.rgba(), inputFrame.gray());
     }
 
@@ -134,4 +151,5 @@ public abstract class OpenCVPipeline implements CameraBridgeViewBase.CvCameraVie
      * @return the Mat that should be displayed to the screen; in most cases one would probably just want to return rgba
      */
     public abstract Mat processFrame(Mat rgba, Mat gray);
+
 }
