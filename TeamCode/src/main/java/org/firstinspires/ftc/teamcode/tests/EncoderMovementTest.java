@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.core.RobotOpMode;
 
-@Autonomous (name = "EncoderMobementTest", group = "Autonomous")
+@Autonomous (name = "Encoder Movement Test", group = "Autonomous")
 public final class EncoderMovementTest extends RobotOpMode {
 
     @Override

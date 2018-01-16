@@ -19,36 +19,39 @@ public class CryptoTest extends RobotOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
 
-    private CryptoboxDetector cryptoboxDetector = null;
+    private CryptoboxDetector backCryptoboxDetector = null;
 
     public void runOpMode(){
         telemetry.addData("Status", "Initialized");
+        telemetry.update();
 
+        backCryptoboxDetector = new CryptoboxDetector();
+        backCryptoboxDetector.init(hardwareMap.appContext, CameraViewDisplay.getInstance(), 0);
 
-        cryptoboxDetector = new CryptoboxDetector();
-        cryptoboxDetector.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
-
-        cryptoboxDetector.rotateMat = false;
-
+        backCryptoboxDetector.rotateMat = false;
+        backCryptoboxDetector.detectionMode = CryptoboxDetector.CryptoboxDetectionMode.BLUE;
         //Optional Test Code to load images via Drawables
         //cryptoboxDetector.useImportedImage = true;
         //cryptoboxDetector.SetTestMat(com.qualcomm.ftcrobotcontroller.R.drawable.test_cv4);
 
-        cryptoboxDetector.enable();
+
+        backCryptoboxDetector.enable();
 
         waitForStart();
         runtime.reset();
         while(opModeIsActive()){
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("isCryptoBoxDetected", cryptoboxDetector.isCryptoBoxDetected());
-            telemetry.addData("isColumnDetected ",  cryptoboxDetector.isColumnDetected());
+            telemetry.addData("isCryptoBoxDetected", backCryptoboxDetector.isCryptoBoxDetected());
+            telemetry.addData("isColumnDetected ",  backCryptoboxDetector.isColumnDetected());
 
-            telemetry.addData("Column Left ",  cryptoboxDetector.getCryptoBoxLeftPosition());
-            telemetry.addData("Column Center ",  cryptoboxDetector.getCryptoBoxCenterPosition());
-            telemetry.addData("Column Right ",  cryptoboxDetector.getCryptoBoxRightPosition());
+            telemetry.addData("Column Left ",  backCryptoboxDetector.getCryptoBoxLeftPosition());
+            telemetry.addData("Column Center ",  backCryptoboxDetector.getCryptoBoxCenterPosition());
+            telemetry.addData("Column Right ",  backCryptoboxDetector.getCryptoBoxRightPosition());
+
+            telemetry.update();
         }
 
-
-        cryptoboxDetector.disable();
+        backCryptoboxDetector.disable();
+        telemetry.update();
     }
 }
