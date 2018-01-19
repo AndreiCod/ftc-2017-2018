@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import java.io.IOException;
 
-@Autonomous (name = "JewelTest", group = "tests")
+@Autonomous (name = "JewelTest", group = "Tests")
 public class JewelTest extends RobotOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();

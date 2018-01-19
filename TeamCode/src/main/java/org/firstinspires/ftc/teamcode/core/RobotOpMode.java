@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.systems.Drive;
 
+import java.util.concurrent.TimeUnit;
+
 public abstract class RobotOpMode extends LinearOpMode {
     protected Hardware robot;
     protected UI ui1, ui2;
@@ -29,6 +31,16 @@ public abstract class RobotOpMode extends LinearOpMode {
         }
     }
 
+
+    public ElapsedTime runtime = new ElapsedTime();
+
+    public void resetTime(){
+        runtime.reset();
+    }
+
+    public double getTime(){
+        return runtime.time(TimeUnit.MILLISECONDS);
+    }
 
     protected void setStatus(String msg) {
         telemetry.addData("Status", msg);

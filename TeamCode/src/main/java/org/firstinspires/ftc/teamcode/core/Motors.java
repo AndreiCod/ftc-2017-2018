@@ -19,13 +19,19 @@ public final class Motors {
     private final static double WHEEL_CIRCUMFERENCE = 20.32 * Math.PI;
     private final static double RATIO = TICKS_PER_ROTATION / WHEEL_CIRCUMFERENCE;
 
-    public static void setEncoderMode(DcMotor motor, boolean withEncoder) {
-        if (withEncoder)
+    private static void setEncoderMode(DcMotor motor, boolean withEncoder) {
+        if (withEncoder) {
+            motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
         else
             motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
+    public void setEncoders(boolean withEncoder){
+        setEncoderMode(frontLeft, withEncoder);
+        setEncoderMode(frontRight, withEncoder);
+    }
     private DcMotor initMotor(String name) {
         DcMotor motor = map.dcMotor.get(name);
 
@@ -40,11 +46,13 @@ public final class Motors {
         frontLeft.setDirection(Direction.REVERSE);
 
         frontRight = initMotor("frontRightMotor");
+        frontRight.setDirection(Direction.FORWARD);
         
         backLeft = initMotor("backLeftMotor");
         backLeft.setDirection(Direction.REVERSE);
 
         backRight = initMotor("backRightMotor");
+        backRight.setDirection(Direction.FORWARD);
     }
 
     public void setPower(double frontLeft, double frontRight, double backLeft, double backRight) {
@@ -62,10 +70,7 @@ public final class Motors {
         telemetry.addData("Back right", String.valueOf(backRight.getPower()));
     }
 
-    public void rotateWheel(DcMotor motor, double distance){
-        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor.setTargetPosition((int)(distance*RATIO));
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    public int getEncoderPosition(DcMotor motor){
+        return motor.getCurrentPosition();
     }
-
 }

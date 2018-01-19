@@ -10,8 +10,11 @@ public class DriveTest extends RobotOpMode {
     public void runOpMode(){
         startRobot();
         waitForStart();
-        while(opModeIsActive()){
+        while(opModeIsActive()) {
             drive.driveWithGamepad(gamepad1);
+            telemetry.addData("x", gamepad1.left_stick_x);
+            telemetry.addData("y", gamepad1.left_stick_y);
+            telemetry.update();
         }
     }
 }

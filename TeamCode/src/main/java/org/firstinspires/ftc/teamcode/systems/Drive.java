@@ -27,49 +27,18 @@ public final class Drive{
     public void driveWithGamepad(Gamepad driver) {
         double x, y, z;
 
-        x = driver.left_stick_x;
-        y = driver.left_stick_y;
-        z = driver.right_stick_x;
+        x = -driver.left_stick_x;
+        y = -driver.left_stick_y;
+        z = -driver.right_stick_x;
         
         motors.setPower(
-                y - x + z,
-                y + x - z,
+                y - x - z,
                 y + x + z,
-                y - x - z
+                y + x - z,
+                y - x + z
         );
     }
 
-
-    public void moveToPosition(String direction, double distance){
-        switch(direction){
-            case "forwards":
-                motors.rotateWheel(motors.frontLeft, distance);
-                motors.rotateWheel(motors.frontRight, distance);
-                motors.rotateWheel(motors.backLeft, distance);
-                motors.rotateWheel(motors.backRight, distance);
-                break;
-            case "backwards":
-                motors.rotateWheel(motors.frontLeft, -distance);
-                motors.rotateWheel(motors.frontRight, -distance);
-                motors.rotateWheel(motors.backLeft, -distance);
-                motors.rotateWheel(motors.backRight, -distance);
-                break;
-            case "right":
-                motors.rotateWheel(motors.frontLeft, distance);
-                motors.rotateWheel(motors.frontRight, -distance);
-                motors.rotateWheel(motors.backLeft, -distance);
-                motors.rotateWheel(motors.backRight, distance);
-                break;
-            case "left":
-                motors.rotateWheel(motors.frontLeft, -distance);
-                motors.rotateWheel(motors.frontRight, distance);
-                motors.rotateWheel(motors.backLeft, distance);
-                motors.rotateWheel(motors.backRight, -distance);
-                break;
-        }
-    }
-
-    private final double P = 0, I = 0, D = 0;
 
     public void printStatistics(Telemetry telemetry) {
         motors.printPower(telemetry);
