@@ -41,6 +41,8 @@ public final class UI {
                 return this.gp.dpad_down;
             case DPAD_LEFT:
                 return this.gp.dpad_left;
+            case DPAD_RIGHT:
+                return this.gp.dpad_right;
             case DPAD_UP:
                 return this.gp.dpad_up;
             case RIGHT_BUMPER:
