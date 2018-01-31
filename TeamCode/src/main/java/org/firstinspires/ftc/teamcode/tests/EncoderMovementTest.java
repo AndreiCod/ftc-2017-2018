@@ -26,7 +26,7 @@ public final class EncoderMovementTest extends RobotOpMode {
         //drive.moveToPosition("forwards", 50);
         setStatus("suntem pe drum");
         update();
-        motors.setPower(1, 1,1, 1);
+        motors.drive(1, 1,1, 1);
 
         while(motors.backRight.isBusy() && motors.backLeft.isBusy() && opModeIsActive()){
             telemetry.addData("backleft", motors.backLeft.getCurrentPosition());
@@ -37,23 +37,23 @@ public final class EncoderMovementTest extends RobotOpMode {
        // telemetry.addData("frontleft", motors.frontLeft.getCurrentPosition());
        // telemetry.addData("frontright", motors.frontRight.getCurrentPosition());
 
-        motors.setPower(0, 0, 0, 0);
+        motors.drive(0, 0, 0, 0);
         sleep(1000);
         setStatus("pornim spre stanga");
         update();
 
         //drive.moveToPosition("left", 50);
-        motors.setPower(1, 1,1, 1);
+        motors.drive(1, 1,1, 1);
 
         while(motors.backRight.isBusy() && motors.backLeft.isBusy() && opModeIsActive());
-        motors.setPower(0, 0, 0, 0);
+        motors.drive(0, 0, 0, 0);
 
         //telemetry.addData("frontleft", motors.frontLeft.getCurrentPosition());
         //telemetry.addData("frontright", motors.frontRight.getCurrentPosition());
         telemetry.addData("backleft", motors.backLeft.getCurrentPosition());
         telemetry.addData("backright", motors.backRight.getCurrentPosition());
         update();
-        motors.setPower(0, 0, 0, 0);
+        motors.drive(0, 0, 0, 0);
         sleep(1000);
 
         setStatus("am ajuns");

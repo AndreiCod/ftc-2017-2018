@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.core;
 
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -13,7 +14,11 @@ public final class Motors {
     public final DcMotor frontRight;
     public final DcMotor backLeft;
     public final DcMotor backRight;
-    private final static double MAX_POWER = 0.78;
+    public final DcMotor intakeLeft;
+    public final DcMotor intakeRight;
+    public final DcMotor intakeOpen;
+
+    private final static double MAX_POWER = 1;
 
     private final static double TICKS_PER_ROTATION = 1120;
     private final static double WHEEL_CIRCUMFERENCE = 20.32 * Math.PI;
@@ -53,9 +58,23 @@ public final class Motors {
 
         backRight = initMotor("backRightMotor");
         backRight.setDirection(Direction.FORWARD);
+
+        intakeLeft = initMotor("leftIntakeMotor");
+        intakeLeft.setDirection(Direction.FORWARD);
+
+        intakeRight = initMotor("rightIntakeMotor");
+        intakeRight.setDirection(Direction.REVERSE);
+
+        intakeOpen = initMotor("intakeOpenMotor");
+        intakeOpen.setDirection(Direction.FORWARD);
     }
 
-    public void setPower(double frontLeft, double frontRight, double backLeft, double backRight) {
+    public void intakeMotors(double leftPower, double rightPower){
+        intakeRight.setPower(rightPower);
+        intakeLeft.setPower(leftPower);
+    }
+
+    public void drive(double frontLeft, double frontRight, double backLeft, double backRight) {
         final double FRONT_LEFT = 1, FRONT_RIGHT = 1, BACK_LEFT = 1, BACK_RIGHT = 1;
         this.frontLeft.setPower(frontLeft * FRONT_LEFT * MAX_POWER);
         this.frontRight.setPower(frontRight * FRONT_RIGHT * MAX_POWER);
@@ -70,7 +89,12 @@ public final class Motors {
         telemetry.addData("Back right", String.valueOf(backRight.getPower()));
     }
 
-    public int getEncoderPosition(DcMotor motor){
-        return motor.getCurrentPosition();
+    public void stop(){
+        drive(0, 0, 0, 0);
+    }
+
+    public void printPosition(Telemetry telemetry, int target) {
+        telemetry.addData("Left position", "%d / %d", frontLeft.getCurrentPosition(), target);
+        telemetry.addData("Right position", "%d / %d", frontRight.getCurrentPosition(), target);
     }
 }
